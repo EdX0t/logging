@@ -1,0 +1,42 @@
+version: '3'
+services:
+  fluentd:
+    build:
+      context: .
+      dockerfile: fluentd/fluentd.dockerfile
+    container_name: fluentd
+    user: root
+    volumes:
+      - ./fluentd/fluentd.conf:/fluentd/etc/fluent.conf
+
+  apache01:
+    build:
+      context: .
+      dockerfile: image/apache.dockerfile
+    container_name: apache-01
+    ports:
+      - '8081:80'
+    environment:
+      ID: apache01
+    volumes:
+      - ./configs/apache2_logger.conf:/etc/apache2/apache2.conf
+      - ./configs/apache-supervisord.conf:/etc/supervisor/conf.d/apache-supervisord.conf
+    depends_on:
+      - fluentd
+
+  apache02:
+    build:
+      context: .
+      dockerfile: image/apache.dockerfile
+    container_name: apache-02
+    ports:
+      - '8082:80'
+    environment:
+      ID: apache02
+    volumes:
+      - ./configs/apache2_rsyslog.conf:/etc/apache2/apache2.conf
+      - ./configs/apache-supervisord.conf:/etc/supervisor/conf.d/apache-supervisord.conf
+      - ./configs/rsyslogd-supervisord.conf:/etc/supervisor/conf.d/rsyslogd-supervisord.conf
+      - ./configs/51-rsyslog-apache02.conf:/etc/rsyslog.d/51-rsyslog-apache.conf
+    depends_on:
+      - fluentd
