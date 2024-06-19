@@ -2,7 +2,7 @@ FROM ubuntu:16.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt update && apt-get install -y --no-install-recommends \
+RUN apt -qq update && apt-get install -yq --no-install-recommends \
       apache2 \
       ca-certificates \
       apt-transport-https \
@@ -11,6 +11,7 @@ RUN apt update && apt-get install -y --no-install-recommends \
       dnsutils \
       rsyslog \
       supervisor \
+      logrotate \
     && apt -y autoremove  \
     && rm -rf /var/lib/apt/lists/* \
     && mkdir /var/run/apache2

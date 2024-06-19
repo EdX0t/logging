@@ -3,4 +3,4 @@ set -e
 
 # remove pid file
 rm -f /var/run/rsyslogd.pid
-rsyslogd -n -f/etc/rsyslog.conf
+rsyslogd -n -d -f/etc/rsyslog.conf
