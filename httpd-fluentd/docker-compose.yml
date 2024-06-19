@@ -9,25 +9,25 @@ services:
     volumes:
       - ./fluentd/fluentd.conf:/fluentd/etc/fluent.conf
 
-#  apache01:
-#    build:
-#      context: .
-#      dockerfile: image/apache.dockerfile
-#    container_name: apache-01
-#    ports:
-#      - '8081:80'
-#    environment:
-#      ID: apache01
-#    volumes:
-#      - ./configs/apache2_logger.conf:/etc/apache2/apache2.conf
-#      - ./configs/apache-supervisord.conf:/etc/supervisor/conf.d/apache-supervisord.conf
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: '2.0'
-#          memory: 1024M
-#    depends_on:
-#      - fluentd
+  apache01:
+    build:
+      context: .
+      dockerfile: image/apache.dockerfile
+    container_name: apache-01
+    ports:
+      - '8081:80'
+    environment:
+      ID: apache01
+    volumes:
+      - ./configs/apache2_logger.conf:/etc/apache2/apache2.conf
+      - ./configs/apache-supervisord.conf:/etc/supervisor/conf.d/apache-supervisord.conf
+    deploy:
+      resources:
+        limits:
+          cpus: '2.0'
+          memory: 1024M
+    depends_on:
+      - fluentd
 
   apache02:
     build:

@@ -1,0 +1,6 @@
+#!/bin/bash
+set -e
+
+# remove pid file
+rm -f /var/run/rsyslogd.pid
+rsyslogd -n -d -f/etc/rsyslog.conf
